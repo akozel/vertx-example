@@ -1,0 +1,8 @@
+basic:
+  server_port: 8080
+
+mongodb:
+  url: http://localhost:27017
+
+option:
+  count: "1"
