@@ -14,16 +14,16 @@ class ServerVerticle(private val router: Router,
 
     private val logger by loggable()
 
-    override fun start(startFuture: Future<Void>) {
+    override fun start(/*startFuture: Future<Void>*/) {
         server
                 .requestHandler { router.accept(it) }
                 .listen(port) { res ->
                     if (res.succeeded()) {
                         logger.info("server started at port ${res.result().actualPort()}")
-                        startFuture.complete()
+                        //startFuture.complete()
                     } else {
                         logger.error("server start failed at port $port")
-                        startFuture.fail(res.cause())
+                        //startFuture.fail(res.cause())
                     }
                 }
     }

@@ -5,4 +5,4 @@ mongodb:
   url: http://localhost:27017
 
 option:
-  count: "1"
+  count: 2

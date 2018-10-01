@@ -8,6 +8,7 @@ import by.akozel.consensus.core.config.server.ServerVerticle
 import by.akozel.consensus.core.exception.ExceptionHandler
 import by.akozel.consensus.personservice.registration.RegistrationOptions
 import by.akozel.consensus.personservice.registration.RegistrationResource
+import by.akozel.consensus.personservice.registration.RegistrationWorker
 import io.vertx.core.Vertx
 import io.vertx.ext.web.Router
 import io.vertx.core.VertxOptions
@@ -16,6 +17,7 @@ import io.vertx.core.VertxOptions
 object Context {
 
     internal val serverVertx = Vertx.vertx(VertxOptions())
+    internal val eventBus = serverVertx.eventBus()
     internal val server = serverVertx.createHttpServer()
 
     //internal val routerVertx = Vertx.vertx()
@@ -31,8 +33,12 @@ fun main(args: Array<String>) {
         ExceptionHandler(Context.router)
         RegistrationResource(Context.router, RegistrationOptions)
         val serverVerticle = ServerVerticle(Context.router, Context.server, BasicOptions.serverPort)
+        val worker = RegistrationWorker()
 
-        Context.serverVertx.deployVerticle(serverVerticle)
+        Context.serverVertx
+                .deployVerticle(serverVerticle)
+        Context.serverVertx
+                .deployVerticle(worker)
     }
 
 }
